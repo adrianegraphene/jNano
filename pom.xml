@@ -39,6 +39,12 @@
         </dependency>
 
         <dependency>
+            <groupId>com.rfksystems</groupId>
+            <artifactId>blake2b</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>RELEASE</version>
