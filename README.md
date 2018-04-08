@@ -21,7 +21,8 @@ Examples on how to use this library can be found on the associated [wiki pages](
 
 
 ## Dependencies
-- [Gson 2.8.2](https://github.com/google/gson)
+- [Gson 2.8.2](https://github.com/google/gson) (Google)
+- [blake2b 1.0.0](https://github.com/rfksystems/blake2b) (RFK Systems) 
 
 
 ---
