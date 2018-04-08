@@ -29,6 +29,18 @@ public class BaseEncoder {
     
     
     
+    public boolean matchesCharacterSet(String str) {
+        for(char c : str.toCharArray()) {
+            try {
+                this.getValueFromChar(c);
+            } catch (IllegalArgumentException e) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    
     public char getCharFromValue(int value) {
         if(value < 0 || value >= charLookupTable.length) throw new IllegalArgumentException("Value " + value + " out of range");
         return charLookupTable[value];
