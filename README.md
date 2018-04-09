@@ -21,8 +21,9 @@ Examples on how to use this library can be found on the associated [wiki pages](
 
 
 ## Dependencies
-- [Gson 2.8.2](https://github.com/google/gson) (Google)
-- [blake2b 1.0.0](https://github.com/rfksystems/blake2b) (RFK Systems) 
+- [Gson 2.8.2](https://github.com/google/gson)
+- [blake2b 1.0.0](https://github.com/rfksystems/blake2b)
+- [EdDSA-Java 1.0.0](https://github.com/str4d/ed25519-java)
 
 
 ---
