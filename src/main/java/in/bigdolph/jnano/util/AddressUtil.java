@@ -6,14 +6,18 @@ import in.bigdolph.jnano.util.encoding.EncodingHelper;
 
 import java.util.Arrays;
 
-public class AddressUtil {
+public final class AddressUtil {
+    private AddressUtil() {} //Static class
+    
     
     public static final BaseEncoder ADDRESS_ENCODER =   EncodingHelper.NANO_BASE32;
     public static final BaseEncoder KEY_ENCODER =       EncodingHelper.HEXADECIMAL;
     
-    public static final String ADDRESS_PREFIX =     "nano";
-    public static final char[] PREFIX_CHARS =       "_-".toCharArray();
-    public static final char DEFAULT_PREFIX_CHAR =  '_';
+    
+    public static final String[] PREFIX_NAMES =     {"nano", "xrb"};
+    public static final char[] PREFIX_CHARS =       {'_', '-'};
+    public static final String DEFAULT_PREFIX_NAME = PREFIX_NAMES[0];
+    public static final char DEFAULT_PREFIX_CHAR =  PREFIX_CHARS[0];
     
     public static final String GENESIS_ADDRESS =    "xrb_3t6k35gi95xu6tergt6p69ck76ogmitsa8mnijtpxm9fkcm736xtoncuohr3";
     public static final String LANDING_ADDRESS =    "xrb_13ezf4od79h1tgj9aiu4djzcmmguendtjfuhwfukhuucboua8cpoihmh8byo";
@@ -22,38 +26,51 @@ public class AddressUtil {
     
     
     
-    public static boolean isAddressValid(byte[] keyBytes, String hash) {
-        byte[] hashBytes;
+    public static boolean isAddressValid(byte[] keyBytes, String expectedChecksum) {
+        //Turn expected checksum into byte array
+        byte[] expectedChecksumBytes;
         try {
-            hashBytes = ADDRESS_ENCODER.decode(hash);
+            expectedChecksumBytes = ADDRESS_ENCODER.decode(expectedChecksum);
         } catch (IllegalArgumentException e) {
             return false;
         }
-        return Arrays.equals(hashBytes, generateChecksumBytes(keyBytes));
+        
+        return Arrays.equals(expectedChecksumBytes, generateChecksumBytes(keyBytes)); //Compare expected checksum against computed
     }
     
-    public static boolean isAddressValid(String keyAddr, String prefix) {
+    public static boolean isAddressValid(String keyAddr, String... acceptablePrefixes) {
         //Parse address
         SegmentedAddress address;
         try {
             address = segmentAddress(keyAddr);
         } catch (IllegalArgumentException e) {
-            return false;
+            return false; //Couldn't parse address (invalid length)
         }
+        
         //Check prefix
-        if(prefix != null && !address.getPrefix().equalsIgnoreCase(prefix)) return false;
+        if(acceptablePrefixes != null && acceptablePrefixes.length > 0) { //Prefix(es) specified, validate
+            boolean prefixValid = false;
+            for(String prefix : acceptablePrefixes) {
+                if(address.getPrefix().equalsIgnoreCase(prefix)) {
+                    prefixValid = true;
+                    break;
+                }
+            }
+            if(!prefixValid) return false; //Prefix didn't match
+        }
+        
         //Convert to bytes
         byte[] keyBytes;
         try {
             keyBytes = ADDRESS_ENCODER.decode(address.getEncodedKey());
         } catch (IllegalArgumentException e) {
-            return false;
+            return false; //Failed to decode key (invalid length/chars)
         }
         return isAddressValid(keyBytes, address.getEncodedChecksum());
     }
     
-    public static boolean isAddressValid(String address) {
-        return isAddressValid(address, ADDRESS_PREFIX);
+    public static boolean isAddressAndPrefixValid(String address) {
+        return isAddressValid(address, PREFIX_NAMES);
     }
     
     
@@ -81,7 +98,7 @@ public class AddressUtil {
     }
     
     public static String getAddressFromKey(String publicKey) {
-        return getAddressFromKey(publicKey, ADDRESS_PREFIX);
+        return getAddressFromKey(publicKey, DEFAULT_PREFIX_NAME);
     }
     
     
