@@ -6,7 +6,7 @@ import in.bigdolph.jnano.util.encoding.EncodingHelper;
 
 import java.util.Arrays;
 
-public class AccountUtil {
+public class AddressUtil {
     
     public static final BaseEncoder ADDRESS_ENCODER =   EncodingHelper.NANO_BASE32;
     public static final BaseEncoder KEY_ENCODER =       EncodingHelper.HEXADECIMAL;
