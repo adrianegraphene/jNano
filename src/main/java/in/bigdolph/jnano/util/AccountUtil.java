@@ -1,8 +1,8 @@
 package in.bigdolph.jnano.util;
 
 import com.rfksystems.blake2b.Blake2b;
-import in.bigdolph.jnano.util.helper.BaseEncoder;
-import in.bigdolph.jnano.util.helper.EncodingHelper;
+import in.bigdolph.jnano.util.encoding.BaseEncoder;
+import in.bigdolph.jnano.util.encoding.EncodingHelper;
 
 import java.util.Arrays;
 
@@ -151,7 +151,7 @@ public class AccountUtil {
         
         private String prefix, key, checksum;
         
-        SegmentedAddress(String prefix, String key, String checksum) {
+        private SegmentedAddress(String prefix, String key, String checksum) {
             this.prefix = prefix;
             this.key = key;
             this.checksum = checksum;

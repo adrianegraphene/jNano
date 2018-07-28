@@ -1,7 +1,6 @@
 package in.bigdolph.jnano.util;
 
 import in.bigdolph.jnano.tests.UtilTests;
-import in.bigdolph.jnano.util.helper.EncodingHelper;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 

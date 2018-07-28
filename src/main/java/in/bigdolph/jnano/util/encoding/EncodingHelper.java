@@ -1,4 +1,4 @@
-package in.bigdolph.jnano.util.helper;
+package in.bigdolph.jnano.util.encoding;
 
 public class EncodingHelper {
     

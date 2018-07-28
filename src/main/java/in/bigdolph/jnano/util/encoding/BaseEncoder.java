@@ -1,4 +1,4 @@
-package in.bigdolph.jnano.util.helper;
+package in.bigdolph.jnano.util.encoding;
 
 /**
  * This implementation is based off of the JavaScript base32 modules
