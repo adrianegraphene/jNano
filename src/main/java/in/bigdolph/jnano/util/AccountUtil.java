@@ -11,9 +11,9 @@ public class AccountUtil {
     public static final BaseEncoder ADDRESS_ENCODER =   EncodingHelper.NANO_BASE32;
     public static final BaseEncoder KEY_ENCODER =       EncodingHelper.HEXADECIMAL;
     
-    public static final String ADDRESS_PREFIX =     "xrb";
-    public static final String PREFIX_CHARS =       "_-";
-    public static final char DEFAULT_PREFIX_CHAR =  PREFIX_CHARS.charAt(0);
+    public static final String ADDRESS_PREFIX =     "nano";
+    public static final char[] PREFIX_CHARS =       "_-".toCharArray();
+    public static final char DEFAULT_PREFIX_CHAR =  '_';
     
     public static final String GENESIS_ADDRESS =    "xrb_3t6k35gi95xu6tergt6p69ck76ogmitsa8mnijtpxm9fkcm736xtoncuohr3";
     public static final String LANDING_ADDRESS =    "xrb_13ezf4od79h1tgj9aiu4djzcmmguendtjfuhwfukhuucboua8cpoihmh8byo";
@@ -123,9 +123,20 @@ public class AccountUtil {
         address = address.toLowerCase(); //Convert to lowercase
         
         String prefix = "";
-        if(address.length() > 60) { //Has prefix
+        if(address.length() > 60) { //If address has prefix
             prefix = address.substring(0, address.length() - 61);
-            if(PREFIX_CHARS.indexOf(address.charAt(address.length() - 61)) == -1) throw new IllegalArgumentException("Invalid address format");
+            
+            //Ensure prefix char is valid
+            char prefixChar = address.charAt(address.length() - 61);
+            
+            boolean valid = false;
+            for(char c : PREFIX_CHARS) {
+                if(prefixChar == c) {
+                    valid = true;
+                    break;
+                }
+            }
+            if(!valid) throw new IllegalArgumentException("Invalid address format"); //Unknown prefix separator
         }
         
         return new SegmentedAddress(
@@ -162,7 +173,7 @@ public class AccountUtil {
         
         @Override
         public String toString() {
-            return getPrefix() + PREFIX_CHARS.charAt(0) + getEncodedKey() + getEncodedChecksum();
+            return getPrefix() + DEFAULT_PREFIX_CHAR + getEncodedKey() + getEncodedChecksum();
         }
         
     }
