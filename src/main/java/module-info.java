@@ -17,5 +17,6 @@ module uk.oczadly.karl.jnano {
     
     //Dependencies
     requires gson;
+    requires Java.WebSocket;
 
 }
